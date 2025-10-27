@@ -15,9 +15,6 @@ A real-time IoT dashboard for monitoring temperature, humidity, soil moisture, a
 - CSS3 (custom styling)
 - ESP32 sensor data feed
 
-## 📸 Preview
-![Dashboard Screenshot](https://i.ibb.co/gFZwz0Fm/DASHBOARD.png)
-
 ## 🧑‍💻 Setup
 ```bash
 git clone https://github.com/SoahamSur/Precision-Agri-Dashboard.git
