@@ -230,7 +230,6 @@ body {
   pointer-events: none;
   opacity: 0.9;
 }
-
 /* Hover effect */
 .filter-select:hover {
   background: rgba(40, 40, 40, 0.7);

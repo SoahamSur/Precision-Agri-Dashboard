@@ -236,6 +236,7 @@ for (const v of entries) {
 <div className="select-wrapper">
           <select
             className="filter-select"
+            style={{paddingRight:"42px"}}
             value={selectedSensor}
             onChange={(e) => setSelectedSensor(e.target.value)}
           >
