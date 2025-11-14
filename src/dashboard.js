@@ -292,13 +292,15 @@
 //     </div>
 //   );
 // }
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import useSensorData from "./hooks/useSensorData";
 import useSensorHistory from "./hooks/useSensorHistory";
 import LiveChart from "./components/LiveChart";
-import { getDatabase, ref, query, orderByChild, startAt, get } from "firebase/database";
+import { getDatabase, ref,onValue, query, orderByChild, startAt, get } from "firebase/database";
 import "./Dashboard.css";
 import AdvisoryFAB from "./components/AdvisoryFAB/AdvisoryFAB";
+import { database } from "./firebase"; // adjust path if needed
+
 
 const thresholds = {
   temperature: { min: 5, max: 40 },
@@ -329,6 +331,22 @@ export default function Dashboard() {
   const handleAdvisoryReceived = (msg) => {
     setAdvisory(msg);   // store only the latest
   };
+
+  const [latestAdvisory, setLatestAdvisory] = useState("No new advisories");
+
+useEffect(() => {
+  const advisoryRef = ref(database, "advisory/latest");
+
+  const unsubscribe = onValue(advisoryRef, (snapshot) => {
+    const data = snapshot.val();
+    if (data && data.message) {
+      setLatestAdvisory(data.message);
+    }
+  });
+
+  return () => unsubscribe();
+}, []);
+
 
 
 
@@ -521,11 +539,10 @@ export default function Dashboard() {
             📥 Download CSV
           </button>
         </div>
-        <div className="advisory-display">
-  {advisory
-    ? <>🌱 Advisory: "{advisory}"</>
-    : <span className="no-advisory-text">No new advisories</span>}
+<div className="advisory-display">
+  🌱 Advisory: "{latestAdvisory}"
 </div>
+
       </header>
 
       {/* Combined Cards + Chart */}

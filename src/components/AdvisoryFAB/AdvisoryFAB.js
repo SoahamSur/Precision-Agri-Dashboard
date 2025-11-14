@@ -1,100 +1,140 @@
 import React, { useState } from "react";
 import "./AdvisoryFAB.css";
+import { getDatabase, ref, set } from "firebase/database";
 import FABicon3 from "../../assets/FABicon3.png";
 const VALID_KEYWORDS = [
-  // Core Agriculture
-  "agriculture", "farming", "farm", "farmer", "field",
-  "crop", "crops", "cash crop", "mixed cropping", "crop rotation",
-  "harvest", "yield", "sowing", "planting", "cultivation",
-  "germination", "transplanting", "weeding",
 
-  // Soil
+  // ---------------- CORE AGRICULTURE ----------------
+  "agriculture", "farming", "farm", "farmer", "fields", "farmland",
+  "crop", "crops", "cropping", "cropland", "crop rotation",
+  "mixed cropping", "intercropping", "sowing", "planting",
+  "cultivation", "germination", "transplanting", "weeding",
+  "harvest", "harvesting", "yield", "productivity",
+
+  // ---------------- WEATHER & HAZARDS ----------------
+  "weather", "climate", "forecast", "meteo", "temperature",
+  "heat", "heatwave", "cold wave", "coldwave", "fog",
+  "humidity", "rain", "rainfall", "monsoon", "clouds",
+  "sunlight", "solar radiation", "wind", "wind speed",
+  "storm", "thunderstorm", "lightning", "hailstorm",
+  "flood", "flash flood", "drought",
+  "cyclone", "hurricane", "typhoon",
+  "low pressure", "pressure system", "windstorm",
+  "precipitation", "moisture", "evaporation",
+  "drought stress", "heat stress", "cold stress",
+  "dew", "fog", "visibility", "dust storm",
+
+  // ---------------- SOIL ----------------
   "soil", "soil health", "soil fertility", "soil moisture",
-  "topsoil", "clay", "sandy soil", "loamy soil",
-  "soil erosion", "soil pH", "soil testing",
+  "soil type", "topsoil", "subsoil", "clay", "sandy soil",
+  "loamy soil", "red soil", "black soil", "alluvial soil",
+  "soil erosion", "soil structure", "soil pH",
+  "soil testing", "soil nutrients", "soil amendment",
+  "salinity", "alkalinity", "acidity", "soil carbon",
 
-  // Weather & Climate
-  "weather", "rain", "rainfall", "sunlight", "humidity",
-  "temperature", "heatwave", "cold wave", "fog",
-  "drought", "flood", "hailstorm", "wind speed",
-  "climate", "monsoon", "season",
-
-  // Irrigation
-  "irrigation", "drip irrigation", "sprinkler irrigation",
-  "water supply", "watering", "canal", "borewell",
-  "waterlogging", "water conservation",
-
-  // Fertilizers
+  // ---------------- FERTILIZERS ----------------
   "fertilizer", "fertilizers", "organic fertilizer",
-  "chemical fertilizer", "compost", "manure",
+  "chemical fertilizer", "compost", "manure", "cow dung",
+  "biofertilizer", "vermicompost", "green manure",
+  "NPK", "urea", "DAP", "SSP", "MOP",
   "nitrogen", "phosphorus", "potassium",
-  "NPK", "urea", "DAP", "micronutrients",
+  "micronutrients", "zinc", "boron", "magnesium",
+  "foliar spray", "fertigation",
 
-  // Pests & Diseases
+  // ---------------- IRRIGATION ----------------
+  "irrigation", "watering", "drip irrigation",
+  "sprinkler irrigation", "micro irrigation",
+  "canal water", "borewell", "tube well", "well",
+  "water supply", "waterlogging", "drainage",
+  "water conservation", "rainwater harvesting",
+
+  // ---------------- PESTS & DISEASES ----------------
   "pest", "pests", "insects", "infestation",
+  "larvae", "parasite", "insect attack",
   "locust", "aphids", "whitefly", "bollworm",
-  "mite", "fungus", "fungal infection",
-  "disease", "plant disease", "blight",
-  "rust", "wilt", "mosaic virus",
+  "stem borer", "armyworm", "mite", "thrips",
+  "fungus", "fungal", "mildew", "powdery mildew",
+  "blight", "leaf spot", "rust", "wilt",
+  "mosaic virus", "bacterial", "viral disease",
+  "crop disease", "plant disease",
 
-  // Seeds
-  "seed", "seeds", "hybrid seeds", "germination rate",
-  "seed treatment", "seed quality",
+  // ---------------- SEEDS ----------------
+  "seed", "seeds", "hybrid seed", "germination rate",
+  "seed quality", "seed treatment", "certified seed",
 
-  // Machinery & Equipment
-  "tractor", "harvester", "plough", "tiller",
-  "seed drill", "sprayer", "thresher", "rotavator",
-  "farm machinery", "equipment",
+  // ---------------- FIELD OPERATIONS ----------------
+  "land preparation", "tillage", "ploughing",
+  "deep ploughing", "levelling", "bunding",
+  "mulching", "debudding", "pruning",
+  "field management", "crop management",
 
-  // Water & Nutrition
-  "water", "irrigation water", "nutrients",
-  "fertigation", "mulching",
+  // ---------------- MACHINERY ----------------
+  "tractor", "harvester", "combine",
+  "plough", "tiller", "cultivator",
+  "seed drill", "sprayer", "thresher",
+  "rotavator", "farm machinery", "equipment",
 
-  // Land & Field Management
-  "land preparation", "tillage", "intercropping",
-  "field management", "farm management",
-  "soil conservation", "contour farming",
+  // ---------------- NUTRITION ----------------
+  "nutrients", "deficiency", "fertigation",
+  "mulching", "plant nutrition", "soil nutrition",
+  "leaf yellowing", "chlorosis",
 
-  // Crops (specific)
+  // ---------------- SPECIFIC CROPS ----------------
   "wheat", "rice", "paddy", "maize", "corn",
   "sugarcane", "cotton", "millet", "jowar",
   "bajra", "barley", "soybean", "mustard",
   "groundnut", "potato", "tomato", "onion",
-  "vegetables", "fruits", "horticulture",
+  "ginger", "garlic", "turmeric",
+  "banana", "mango", "papaya", "guava",
+  "horticulture", "vegetables", "fruits",
 
-  // Plant Protection
-  "pesticide", "fungicide", "herbicide",
-  "insecticide", "weed control", "crop protection",
+  // ---------------- PLANT PROTECTION ----------------
+  "pesticide", "insecticide", "fungicide",
+  "herbicide", "weed control", "crop protection",
+  "spray", "sprayer", "plant protection",
 
-  // Sustainable Farming
-  "organic farming", "sustainable farming",
-  "natural farming", "zero budget farming",
-  "composting", "vermicompost",
+  // ---------------- SUSTAINABLE FARMING ----------------
+  "organic farming", "natural farming",
+  "sustainable farming", "zero budget farming",
+  "eco-friendly", "biodiversity",
 
-  // Advisory related
-  "alert", "warning", "advisory", "forecast",
-  "recommendation", "guidance", "farm advisory",
+  // ---------------- ADVISORY & RISK ----------------
+  "alert", "warning", "advisory", "farm advisory",
+  "guidance", "recommendation",
+  "risk", "hazard", "disaster", "forecasting",
 
-  // Environment
+  // ---------------- ENVIRONMENT ----------------
   "greenhouse gas", "carbon emissions",
-  "soil carbon", "biodiversity",
+  "soil carbon", "biodiversity", "ecosystem",
+  "pollution", "air quality",
 
-  // Harvest & Post-Harvest
-  "threshing", "drying", "storage",
-  "warehouse", "mandi", "market price",
+  // ---------------- POST HARVEST ----------------
+  "threshing", "drying", "storage", "warehouse",
+  "mandi", "market", "market rate", "market price",
 
-  // Livestock (optional but agriculture-related)
-  "dairy", "milk", "cattle", "buffalo",
-  "livestock", "poultry", "goat farming",
+  // ---------------- LIVESTOCK ----------------
+  "livestock", "dairy", "cattle", "buffalo",
+  "poultry", "goat farming", "sheep", "fodder",
 
-  // Sensors & Tech
-  "sensor", "soil sensor", "IoT", "drone",
-  "precision farming", "kisan", "agritech",
+  // ---------------- AGRI TECH ----------------
+  "sensor", "soil sensor", "temperature sensor",
+  "humidity sensor", "IoT", "drone", "UAV",
+  "automation", "precision farming", "smart farming",
+  "agritech", "digital agriculture",
 
-  // Water stress / plant conditions
+  // ---------------- WATER STRESS ----------------
   "water stress", "nutrient deficiency",
-  "crop stress", "leaf yellowing"
+  "crop stress", "plant stress",
+
+  // ---------------- DISASTER-SPECIFIC ----------------
+  "cyclone alert", "cyclonic storm", "severe cyclone",
+  "super cyclone", "gale winds", "storm surge",
+  "landfall", "orange alert", "red alert",
+  "IMD", "heavy rain alert", "very heavy rain",
+  "extremely heavy rain", "lightning alert"
+
 ];
+
 
 
 export default function AdvisoryFAB({ onAdvisory }) {
@@ -112,20 +152,27 @@ export default function AdvisoryFAB({ onAdvisory }) {
     }, 250); // fadeDown duration
   };
 
-  const handleSubmit = () => {
-    const lower = text.toLowerCase();
-    const isValid = VALID_KEYWORDS.some((kw) => lower.includes(kw));
+ const handleSubmit = () => {
+  const lower = text.toLowerCase();
+  const isValid = VALID_KEYWORDS.some((kw) => lower.includes(kw));
 
-    if (isValid) {
-      if (onAdvisory) onAdvisory(text);
+  if (isValid) {
+    const db = getDatabase();
+    set(ref(db, "advisory/latest"), {
+      message: text,
+      timestamp: Date.now(),
+    });
 
-      setText("");
-      setError("");
-      closePopup();   // smooth fade-out
-    } else {
-      setError("❌ Message rejected — no valid agricultural keywords found.");
-    }
-  };
+    if (onAdvisory) onAdvisory(text);
+
+    setText("");
+    setError("");
+    setIsOpen(false);
+  } else {
+    setError("❌ Message rejected — no valid agricultural keywords found.");
+  }
+};
+
 
   return (
     <>
