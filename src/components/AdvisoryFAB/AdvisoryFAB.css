@@ -1,0 +1,280 @@
+
+.fab-button:hover {
+  transform: scale(1.1);
+}
+
+/* Blur Pop-Up Box (Glassmorphism) */
+.advisory-popup {
+  position: fixed;
+  bottom: 105px;
+  right: 20px;
+
+  width: 300px;
+  padding: 18px;
+
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(12px);
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.3);
+
+  box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+
+  animation: fadeUp 0.25s ease-out;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+/* Input box */
+.advisory-textarea {
+  width: 100%;
+  height: 80px;
+  resize: none;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,0.35);
+  color: #000;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* Error */
+.advisory-error {
+  color: #ff4d4d;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+/* Send button */
+.send-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #4e8cff;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Approved advisory messages display */
+.advisory-list {
+  position: fixed;
+  bottom: 120px;
+  right: 340px;
+  max-width: 300px;
+}
+
+.advisory-item {
+  background: #fff;
+  padding: 8px 12px;
+  border-radius: 10px;
+  margin-top: 6px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+}
+.fab-button {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  width: 60px !important;
+  height: 60px !important;
+  border-radius: 50% !important;
+  background: #4caf50 !important;
+  color: white !important;
+  font-size: 28px !important;
+  border: none !important;
+  cursor: pointer !important;
+  z-index: 99999 !important; /* bump higher */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.25) !important;
+}
+.fab-container {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 999999 !important;
+  pointer-events: auto;
+}
+/* Popup Box */
+.advisory-popup {
+  position: fixed;
+  bottom: 105px;
+  right: 20px;
+
+  width: 320px;
+  padding: 20px;
+
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(14px);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.25);
+
+  box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* Centers textarea horizontally */
+  text-align: center;   /* Centers text in the popup */
+
+  color: white;
+}
+
+/* Title */
+.advisory-popup h3 {
+  color: white;
+  margin: 0 0 12px 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Centered Textarea */
+.advisory-textarea {
+  width: 90%; /* Centers due to flexbox parent */
+  height: 90px;
+  resize: none;
+
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+
+  font-size: 14px;
+  text-align: left;  
+  margin-top: 10px;
+
+  box-shadow: inset 0 3px 10px rgba(0,0,0,0.15);
+}
+
+/* Placeholder text white-toned */
+.advisory-textarea::placeholder {
+  color: rgba(255,255,255,0.85);
+}
+
+/* Error text */
+.advisory-error {
+  color: #ff9090;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+/* New GREEN GRADIENT Send Button */
+.send-btn {
+  margin-top: 12px;
+  padding: 8px 20px;
+
+  background: linear-gradient(90deg, #16a34a, #4ade80);
+  color: white;
+  width: 10vh;
+  border: none;
+  border-radius: 10px;
+ box-shadow: 0 4px 15px rgba(0, 0, 0, 0.553) !important;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.send-btn:hover {
+  transform: scale(1.05);
+}
+@keyframes fadeDown {
+  from {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+}
+
+.advisory-popup.fade-out {
+  animation: fadeDown 0.25s ease-in forwards;
+}
+.fab-icon {
+  width: 40px;
+  height: 40px;
+  margin: auto;
+  object-fit: contain;
+  pointer-events: none;
+}
+.fab-button {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+
+  width: 60px !important;
+  height: 60px !important;
+  border-radius: 50% !important;
+
+  background: linear-gradient(90deg, #16a34a, #4ade80) !important;
+  border: none !important;
+  cursor: pointer !important;
+
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+  font-size: 28px;           /* For the ✖ */
+  color: white;
+
+  z-index: 99999 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.553) !important;
+
+  transition: transform 0.2s ease;
+}
+
+.fab-button:hover {
+  transform: scale(1.1);
+}
+
+/* Center the PNG icon */
+.fab-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 20px;
+  object-fit: contain;
+  display: block;
+  pointer-events: none; 
+}
+/* Common animation styles */
+.fade-icon {
+  position: absolute;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* States */
+.fade-icon.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.fade-icon.hide {
+  opacity: 0;
+  transform: scale(0.6);
+  pointer-events: none;
+}
+
+/* Icon sizing */
+.fab-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.fab-close {
+  font-size: 28px;
+  color: white;
+}
