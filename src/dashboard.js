@@ -300,7 +300,7 @@ import { getDatabase, ref,onValue, query, orderByChild, startAt, get } from "fir
 import "./Dashboard.css";
 import AdvisoryFAB from "./components/AdvisoryFAB/AdvisoryFAB";
 import { database } from "./firebase"; // adjust path if needed
-
+import Navbar from "./components/Navbar/Navbar";
 
 const thresholds = {
   temperature: { min: 5, max: 40 },
@@ -492,8 +492,9 @@ useEffect(() => {
   return (
     <> 
     <div className="dashboard">
+     <Navbar lastUpdated={latest?.rawTimestamp} />
       <header>
-        <h1>🌿 Precision Agri Dashboard</h1>
+        <h1>🌿Dashboard🌿</h1>
         <p>Real-time sensor monitoring <span className="live-dot"></span></p>
 
         <div className="last-updated">
